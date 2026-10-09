@@ -1,0 +1,26 @@
+<header class="sticky top-0 z-10 border-b border-neutral-800 bg-neutral-950/80 backdrop-blur">
+  <nav class="mx-auto flex max-w-4xl items-center justify-between px-6 py-4">
+    <a routerLink="/" class="text-lg font-semibold tracking-tight text-neutral-100">
+      Re<span class="text-amber-400">Comiendo</span>
+    </a>
+    <div class="flex gap-6 text-sm font-medium text-neutral-400">
+      <a
+        routerLink="/"
+        routerLinkActive="text-white"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="hover:text-white"
+      >
+        Locales
+      </a>
+      @if (auth.isLoggedIn()) {
+        <a routerLink="/perfil" routerLinkActive="text-white" class="hover:text-white">
+          Mi perfil
+        </a>
+      } @else {
+        <a routerLink="/ingresar" routerLinkActive="text-white" class="hover:text-white">
+          Ingresar
+        </a>
+      }
+    </div>
+  </nav>
+</header>

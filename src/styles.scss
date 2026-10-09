@@ -1,0 +1,21 @@
+@use "tailwindcss";
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: "General Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  @apply bg-neutral-950 text-neutral-300;
+}
+
+// Campo de formulario compartido (ingresar, perfil).
+.input {
+  @apply w-full rounded-lg border border-neutral-800 bg-neutral-900 px-4 py-2 text-sm text-neutral-100 placeholder:text-neutral-500 focus:border-amber-400/60 focus:outline-none;
+}

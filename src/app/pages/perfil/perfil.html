@@ -1,0 +1,90 @@
+<section class="mx-auto max-w-4xl px-6 py-16">
+  @let p = auth.profile();
+
+  <header class="flex flex-wrap items-start justify-between gap-4">
+    <div>
+      <h1 class="text-3xl font-bold tracking-tight text-neutral-100">
+        {{ p?.nombre || 'Mi perfil' }}
+      </h1>
+      @if (p?.username) {
+        <p class="text-sm text-neutral-500">&#64;{{ p?.username }}</p>
+      }
+      @if (p?.bio) {
+        <p class="mt-2 text-neutral-400">{{ p?.bio }}</p>
+      }
+    </div>
+    <div class="flex gap-3 text-sm">
+      <button
+        type="button"
+        class="rounded-lg border border-neutral-800 px-4 py-2 hover:border-neutral-600"
+        (click)="editando.set(!editando())"
+      >
+        {{ editando() ? 'Cancelar' : 'Editar perfil' }}
+      </button>
+      <button
+        type="button"
+        class="rounded-lg border border-neutral-800 px-4 py-2 hover:border-neutral-600"
+        (click)="salir()"
+      >
+        Cerrar sesión
+      </button>
+    </div>
+  </header>
+
+  @if (editando()) {
+    <form class="mt-6 flex max-w-md flex-col gap-3" (submit)="guardar($event)">
+      <input name="nombre" placeholder="Nombre" class="input" [value]="p?.nombre ?? ''" />
+      <input
+        name="username"
+        placeholder="usuario (a-z, 0-9, _)"
+        pattern="[a-zA-Z0-9_]{3,30}"
+        class="input"
+        [value]="p?.username ?? ''"
+      />
+      <textarea name="bio" rows="3" placeholder="Bio" class="input">{{ p?.bio ?? '' }}</textarea>
+      @if (error()) {
+        <p class="text-sm text-red-400">{{ error() }}</p>
+      }
+      <button
+        type="submit"
+        class="rounded-lg bg-amber-400 px-4 py-2 font-semibold text-neutral-950 hover:bg-amber-300"
+      >
+        Guardar
+      </button>
+    </form>
+  }
+
+  <h2 class="mt-12 text-xl font-semibold text-neutral-100">Locales favoritos</h2>
+  <div class="mt-4 grid gap-5 sm:grid-cols-2">
+    @for (local of favoritos(); track local.id) {
+      <app-local-card [local]="local" />
+    } @empty {
+      <p class="text-sm text-neutral-500">
+        Aún no tienes favoritos. <a routerLink="/" class="text-white hover:underline">Explora locales</a>.
+      </p>
+    }
+  </div>
+
+  <h2 class="mt-12 text-xl font-semibold text-neutral-100">Mis valoraciones</h2>
+  <ul class="mt-4 divide-y divide-neutral-800 rounded-xl border border-neutral-800">
+    @for (v of valoraciones(); track v.id) {
+      <li class="flex flex-wrap items-center justify-between gap-3 p-4">
+        <div>
+          <p class="font-medium text-neutral-100">{{ v.items_carta.nombre }}</p>
+          <a
+            [routerLink]="['/locales', v.items_carta.locales.id]"
+            class="text-sm text-neutral-400 hover:text-white"
+          >
+            {{ v.items_carta.locales.nombre }}
+          </a>
+        </div>
+        <div class="text-right">
+          <app-star-rating [value]="v.puntuacion" size="sm" />
+          <p class="text-xs text-neutral-500">{{ v.created_at | date: 'mediumDate' }}</p>
+        </div>
+      </li>
+    } @empty {
+      <li class="p-4 text-sm text-neutral-500">Todavía no has valorado ningún plato.</li>
+    }
+  </ul>
+</section>

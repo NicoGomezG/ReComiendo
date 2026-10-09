@@ -1,0 +1,26 @@
+<section class="mx-auto max-w-4xl px-6 py-16">
+  <h1 class="text-3xl font-bold tracking-tight text-neutral-100">Locales recomendados</h1>
+  <p class="mt-2 text-neutral-400">
+    La nota de cada local es el promedio de todas las valoraciones de los platos de su carta.
+  </p>
+
+  <input
+    type="search"
+    placeholder="Buscar por nombre, comuna o tipo de cocina…"
+    class="mt-8 w-full rounded-lg border border-neutral-800 bg-neutral-900 px-4 py-2 text-sm text-neutral-100 placeholder:text-neutral-500 focus:border-amber-400/60 focus:outline-none"
+    [value]="query()"
+    (input)="query.set($any($event.target).value)"
+  />
+
+  @if (loading()) {
+    <p class="mt-8 text-sm text-neutral-500">Cargando locales…</p>
+  } @else {
+    <div class="mt-8 grid gap-5 sm:grid-cols-2">
+      @for (local of filtered(); track local.id) {
+        <app-local-card [local]="local" />
+      } @empty {
+        <p class="text-sm text-neutral-500">No encontramos locales con esa búsqueda.</p>
+      }
+    </div>
+  }
+</section>

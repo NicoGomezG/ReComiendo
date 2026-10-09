@@ -1,0 +1,27 @@
+<a
+  [routerLink]="['/locales', local().id]"
+  class="flex h-full flex-col gap-3 rounded-xl border border-neutral-800 p-6 transition-colors hover:border-amber-400/50"
+>
+  <div class="flex items-start justify-between gap-4">
+    <h3 class="text-xl font-semibold text-neutral-100">{{ local().nombre }}</h3>
+    @if (local().tipo_cocina) {
+      <span class="shrink-0 rounded-md bg-neutral-800 px-2 py-0.5 text-xs text-neutral-300">
+        {{ local().tipo_cocina }}
+      </span>
+    }
+  </div>
+
+  @if (local().descripcion) {
+    <p class="text-sm text-neutral-400">{{ local().descripcion }}</p>
+  }
+
+  <div class="mt-auto flex items-center gap-2 text-sm">
+    <app-star-rating [value]="local().rating_promedio" size="sm" />
+    <span class="font-medium text-neutral-100">{{ local().rating_promedio | number: '1.1-1' }}</span>
+    <span class="text-neutral-500">({{ local().rating_count }} valoraciones)</span>
+  </div>
+
+  @if (local().comuna) {
+    <p class="text-xs text-neutral-500">{{ local().direccion }} · {{ local().comuna }}</p>
+  }
+</a>

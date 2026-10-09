@@ -1,0 +1,50 @@
+<section class="mx-auto max-w-sm px-6 py-16">
+  <h1 class="text-3xl font-bold tracking-tight text-neutral-100">
+    {{ modo() === 'ingresar' ? 'Ingresar' : 'Crear cuenta' }}
+  </h1>
+
+  @if (!supabaseConfigurado) {
+    <p class="mt-4 rounded-lg border border-amber-400/40 px-4 py-2 text-sm text-amber-300">
+      Supabase no está configurado (ver <code>src/environments</code>). Puedes navegar los
+      locales de ejemplo, pero no iniciar sesión.
+    </p>
+  }
+
+  <form class="mt-8 flex flex-col gap-4" (submit)="submit($event)">
+    @if (modo() === 'registro') {
+      <input name="nombre" required placeholder="Tu nombre" class="input" />
+    }
+    <input name="email" type="email" required placeholder="Correo" class="input" />
+    <input
+      name="password"
+      type="password"
+      required
+      minlength="6"
+      placeholder="Contraseña"
+      class="input"
+    />
+
+    @if (error()) {
+      <p class="text-sm text-red-400">{{ error() }}</p>
+    }
+    @if (mensaje()) {
+      <p class="text-sm text-emerald-400">{{ mensaje() }}</p>
+    }
+
+    <button
+      type="submit"
+      [disabled]="enviando() || !supabaseConfigurado"
+      class="rounded-lg bg-amber-400 px-4 py-2 font-semibold text-neutral-950 hover:bg-amber-300 disabled:opacity-50"
+    >
+      {{ modo() === 'ingresar' ? 'Ingresar' : 'Registrarme' }}
+    </button>
+  </form>
+
+  <button
+    type="button"
+    class="mt-6 text-sm text-neutral-400 hover:text-white"
+    (click)="modo.set(modo() === 'ingresar' ? 'registro' : 'ingresar')"
+  >
+    {{ modo() === 'ingresar' ? '¿No tienes cuenta? Regístrate' : '¿Ya tienes cuenta? Ingresa' }}
+  </button>
+</section>

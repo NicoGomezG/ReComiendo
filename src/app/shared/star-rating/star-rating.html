@@ -1,0 +1,26 @@
+<div
+  class="inline-flex items-center"
+  [attr.aria-label]="'Valoración ' + value() + ' de 5'"
+  (mouseleave)="hover.set(null)"
+>
+  @for (n of stars; track n) {
+    <button
+      type="button"
+      class="relative leading-none"
+      [class.cursor-pointer]="editable()"
+      [class.cursor-default]="!editable()"
+      [class.text-lg]="size() === 'sm'"
+      [class.text-2xl]="size() === 'md'"
+      [disabled]="!editable()"
+      [attr.aria-label]="n + ' estrellas'"
+      (mouseenter)="editable() && hover.set(n)"
+      (click)="select(n)"
+    >
+      <span class="text-neutral-700">★</span>
+      <span
+        class="absolute inset-y-0 left-0 overflow-hidden text-amber-400"
+        [style.width.%]="fill(n)"
+      >★</span>
+    </button>
+  }
+</div>
